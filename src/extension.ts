@@ -69,6 +69,8 @@ export function activate(context: ExtensionContext) {
 			// Display a message box with the note number and velocity
 			//vscode.window.showInformationMessage("Note on: channel=" + channel + ", note=" + data1 + ", velocity=" + data2);
 			console.log("Note on: channel=" + channel + ", note=" + data1 + ", velocity=" + data2)
+			const command = {note: data1, velocity: data2};
+			sendParams(command);
 			break;
 			// Add cases for other MIDI message types as needed
 		}
@@ -80,7 +82,47 @@ export function activate(context: ExtensionContext) {
 		console.log("Failed to get MIDI access - " + error);
 	}
 
+	const sendParams = (command) => {
+		console.log("sendParams: " + command);
+		const termName = "TERMINAL";
+		const term = window.terminals.find(t => t.name === termName);
+
+		const handleSendText = ({note, velocity}) => {
+			if (velocity > 0) {
+				switch (note) {
+					case 36:
+						term.sendText("git checkout stage");
+						break;
+					case 37:
+						term.sendText("git add .");
+						break;
+					case 38:
+						term.sendText('git commit -m "',false);
+						break;
+					case 39:
+						term.sendText('git push');
+						break;
+					case 40:
+						term.sendText('git merge stage');
+						break;
+				}
+			}
+		};
+
+		if (term) {
+			term.show();
+			//term.sendText("echo " + command);
+			handleSendText(command);
+		} else {
+			const newTerm = window.createTerminal(termName);
+			newTerm.show();
+			handleSendText(command);
+		}
+		
+	};
+
+
 }
 export function deactivate(context: ExtensionContext) {
-	console.log('MIDI extension deactivated');	
+	console.log('MIDI extension deactivated');
 }
