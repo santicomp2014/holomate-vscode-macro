@@ -123,6 +123,27 @@ export function activate(context: ExtensionContext) {
 					case 40:
 						term.sendText('git merge stage');
 						break;
+					case 41:
+						term.sendText('NOP');
+						break;
+					case 42:
+						term.sendText('NOP');
+						break;
+					case 43:
+						term.sendText('NOP');
+						break;
+					case 44:
+						term.sendText('NOP');
+						break;
+					case 45:
+						term.sendText('NOP');
+						break;
+					case 46:
+						term.sendText('NOP');
+						break;
+					case 47:
+						term.sendText('NOP');
+						break;
 					default:
 						break;
 				}

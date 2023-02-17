@@ -13,6 +13,24 @@ export class HolomatePanel {
     this._panel = panel;
     this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
     this._panel.webview.html = this._getWebviewContent(this._panel.webview, extensionUri);
+    this._setWebviewMessageListener(this._panel.webview);
+  }
+
+  private _setWebviewMessageListener(webview: vscode.Webview) {
+    webview.onDidReceiveMessage(
+      (message: any) => {
+        const command = message.command;
+        const text = message.text;
+
+        switch (command) {
+          case "hello":
+            vscode.window.showInformationMessage(text);
+            return;
+        }
+      },
+      undefined,
+      this._disposables
+    );
   }
 
   public static render(extensionUri: vscode.Uri) {
@@ -57,9 +75,8 @@ export class HolomatePanel {
             <title>Hello World!</title>
         </head>
         <body>
-            <vscode-button id="howdy">Howdy!</vscode-button>
             <h1>Hello World!</h1>
-            <vscode-button id="howdy">Howdy!</vscode-button>
+            <vscode-button id="save">Save</vscode-button>
             <script type="module" nonce="${nonce}" src="${webviewUri}"></script>
         </body>
         </html>
