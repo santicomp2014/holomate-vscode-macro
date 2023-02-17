@@ -1,9 +1,9 @@
 // file: src/webview/main.ts
 
-import { provideVSCodeDesignSystem, vsCodeButton, Button } from "@vscode/webview-ui-toolkit";
+import { provideVSCodeDesignSystem, vsCodeButton, Button, vsCodeTextField } from "@vscode/webview-ui-toolkit";
 
 
-provideVSCodeDesignSystem().register(vsCodeButton());
+provideVSCodeDesignSystem().register(vsCodeButton(), vsCodeTextField());
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
