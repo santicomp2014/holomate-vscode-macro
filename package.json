@@ -2,7 +2,7 @@
 	"name": "HolomateMIDIControllerMacros",
 	"displayName": "Holomate - MIDI Controller Macros",
 	"description": "Holomate - MIDI Controller Macros",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"publisher": "sregusci",
 	"private": true,
 	"license": "MIT",
@@ -16,18 +16,8 @@
 	"categories": [
 		"Other"
 	],
-	"activationEvents": [
-		"onCommand:samples.quickInput"
-	],
+	"activationEvents": [ "onStartupFinished" ],
 	"main": "./out/extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "samples.quickInput",
-				"title": "Quick Input Samples"
-			}
-		]
-	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
