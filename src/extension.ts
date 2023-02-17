@@ -3,7 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { window, ExtensionContext, Terminal } from 'vscode';
+import { commands, window, ExtensionContext, Terminal } from 'vscode';
+import { HolomatePanel } from "./panels/HolomatePanel";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -40,6 +41,13 @@ type Command = {
 };
 
 export function activate(context: ExtensionContext) {
+
+	const holomateCommand = commands.registerCommand("holomate.holomate", () => {
+		HolomatePanel.render();
+	});
+
+	context.subscriptions.push(holomateCommand);
+
 	const output = window.createOutputChannel("Holomate");
 	output.appendLine('MIDI extension activated');
 	//Request MIDI access
