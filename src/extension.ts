@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { window, commands, ExtensionContext } from 'vscode';
+import { window, ExtensionContext, Terminal } from 'vscode';
 
 // @ts-ignore
 import navigator = require('web-midi-api');
@@ -33,17 +33,22 @@ import navigator = require('web-midi-api');
 // 	}));
 // }
 
+type Command = {
+	note: number,
+	velocity: number
+};
+
 export function activate(context: ExtensionContext) {
 	console.log('MIDI extension activated');
 	//Request MIDI access
 	navigator.requestMIDIAccess()
 		.then(onMIDISuccess, onMIDIFailure)
-		.catch(e => {
+		.catch((e: any) => {
 			console.error(e);
 		});
 
 	// Function to handle MIDI access success
-	function onMIDISuccess(midiAccess) {
+	function onMIDISuccess(midiAccess: { inputs: { values: () => { (): any; new(): any; next: { (): { (): any; new(): any; value: any; }; new(): any; }; }; }; }) {
 		console.log("MIDI access available");
 
 		// Get the first MIDI input device
@@ -56,7 +61,7 @@ export function activate(context: ExtensionContext) {
 		}
 
 		// Set up a listener for MIDI messages
-		input.onmidimessage = function(message) {
+		input.onmidimessage = function(message: { data: any[]; }) {
 		// Extract the MIDI message data
 		var status = message.data[0] & 0xf0;
 		var channel = message.data[0] & 0x0f;
@@ -64,12 +69,15 @@ export function activate(context: ExtensionContext) {
 		var data2 = message.data[2];
 
 		// Handle the MIDI message based on the status byte
+		const command = {
+			note: data1,
+			velocity: data2
+		};
 		switch (status) {
 			case 0x90: // Note on
 			// Display a message box with the note number and velocity
 			//vscode.window.showInformationMessage("Note on: channel=" + channel + ", note=" + data1 + ", velocity=" + data2);
 			console.log("Note on: channel=" + channel + ", note=" + data1 + ", velocity=" + data2)
-			const command = {note: data1, velocity: data2};
 			sendParams(command);
 			break;
 			// Add cases for other MIDI message types as needed
@@ -78,18 +86,18 @@ export function activate(context: ExtensionContext) {
 	}
 
 	// Function to handle MIDI access failure
-	function onMIDIFailure(error) {
+	function onMIDIFailure(error: string) {
 		console.log("Failed to get MIDI access - " + error);
 	}
 
-	const sendParams = (command) => {
+	const sendParams = (command: Command) => {
 		console.log("sendParams: " + command);
 		const termName = "TERMINAL";
 		const term = window.terminals.find(t => t.name === termName);
 
-		const handleSendText = ({note, velocity}) => {
-			if (velocity > 0) {
-				switch (note) {
+		const handleSendText = (term: Terminal ,command: Command) => {
+			if (command.velocity > 0) {
+				switch (command.note) {
 					case 36:
 						term.sendText("git checkout stage");
 						break;
@@ -105,20 +113,20 @@ export function activate(context: ExtensionContext) {
 					case 40:
 						term.sendText('git merge stage');
 						break;
+					default:
+						break;
 				}
 			}
 		};
 
 		if (term) {
 			term.show();
-			//term.sendText("echo " + command);
-			handleSendText(command);
+			handleSendText(term, command);
 		} else {
 			const newTerm = window.createTerminal(termName);
 			newTerm.show();
-			handleSendText(command);
+			handleSendText(newTerm, command);
 		}
-		
 	};
 
 
