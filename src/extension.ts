@@ -43,7 +43,7 @@ type Command = {
 export function activate(context: ExtensionContext) {
 
 	const holomateCommand = commands.registerCommand("holomate.holomate", () => {
-		HolomatePanel.render();
+		HolomatePanel.render(context.extensionUri);
 	});
 
 	context.subscriptions.push(holomateCommand);
