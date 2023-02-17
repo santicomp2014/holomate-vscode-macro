@@ -5,6 +5,7 @@
 
 import { window, ExtensionContext, Terminal } from 'vscode';
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import navigator = require('web-midi-api');
 
@@ -39,7 +40,8 @@ type Command = {
 };
 
 export function activate(context: ExtensionContext) {
-	console.log('MIDI extension activated');
+	const output = window.createOutputChannel("Holomate");
+	output.appendLine('MIDI extension activated');
 	//Request MIDI access
 	navigator.requestMIDIAccess()
 		.then(onMIDISuccess, onMIDIFailure)
@@ -49,24 +51,24 @@ export function activate(context: ExtensionContext) {
 
 	// Function to handle MIDI access success
 	function onMIDISuccess(midiAccess: { inputs: { values: () => { (): any; new(): any; next: { (): { (): any; new(): any; value: any; }; new(): any; }; }; }; }) {
-		console.log("MIDI access available");
+		output.appendLine("MIDI access available");
 
 		// Get the first MIDI input device
-		var input = midiAccess.inputs.values().next().value;
+		const input = midiAccess.inputs.values().next().value;
 
 		// If there is no input device, show an error message
 		if (!input) {
-		console.log("No MIDI input devices found");
-		return;
+			output.appendLine("No MIDI input devices found");
+			return;
 		}
 
 		// Set up a listener for MIDI messages
 		input.onmidimessage = function(message: { data: any[]; }) {
 		// Extract the MIDI message data
-		var status = message.data[0] & 0xf0;
-		var channel = message.data[0] & 0x0f;
-		var data1 = message.data[1];
-		var data2 = message.data[2];
+		const status = message.data[0] & 0xf0;
+		const channel = message.data[0] & 0x0f;
+		const data1 = message.data[1];
+		const data2 = message.data[2];
 
 		// Handle the MIDI message based on the status byte
 		const command = {
@@ -77,7 +79,7 @@ export function activate(context: ExtensionContext) {
 			case 0x90: // Note on
 			// Display a message box with the note number and velocity
 			//vscode.window.showInformationMessage("Note on: channel=" + channel + ", note=" + data1 + ", velocity=" + data2);
-			console.log("Note on: channel=" + channel + ", note=" + data1 + ", velocity=" + data2)
+			output.appendLine("Note on: channel=" + channel + ", note=" + data1 + ", velocity=" + data2);
 			sendParams(command);
 			break;
 			// Add cases for other MIDI message types as needed
@@ -87,11 +89,11 @@ export function activate(context: ExtensionContext) {
 
 	// Function to handle MIDI access failure
 	function onMIDIFailure(error: string) {
-		console.log("Failed to get MIDI access - " + error);
+		output.appendLine("Failed to get MIDI access - " + error);
 	}
 
 	const sendParams = (command: Command) => {
-		console.log("sendParams: " + command);
+		output.appendLine("sendParams: " + command);
 		const termName = "TERMINAL";
 		const term = window.terminals.find(t => t.name === termName);
 
@@ -132,5 +134,6 @@ export function activate(context: ExtensionContext) {
 
 }
 export function deactivate(context: ExtensionContext) {
-	console.log('MIDI extension deactivated');
+	const output = window.createOutputChannel("Holomate");
+	output.appendLine('MIDI extension deactivated');
 }
