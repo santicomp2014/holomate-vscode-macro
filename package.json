@@ -34,5 +34,6 @@
 	},
 	"dependencies": {
 		"web-midi-api": "^2.2.3"
-	}
+	},
+	"icon": "icon.png"
 }
