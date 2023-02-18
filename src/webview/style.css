@@ -16,7 +16,7 @@
     justify-content: flex-start;
     margin: 1rem;
     padding: 1rem;
-    border: 2px dashed #7b61ff;
+    border: 2px dashed #ed6e03;
     border-radius: 5px;
   }
   
@@ -35,6 +35,6 @@
   
   vscode-data-grid,
   vscode-panels {
-    border: 2px dashed #7b61ff;
+    border: 2px dashed #ed6e03;
     border-radius: 5px;
   }

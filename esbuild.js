@@ -1,5 +1,4 @@
 // file: esbuild.js
-
 const { build } = require("esbuild");
 const { copy } = require("esbuild-plugin-copy");
 
@@ -76,7 +75,7 @@ const watchConfig = {
       copy({
         resolveFrom: "cwd",
         assets: {
-          from: ["./src/webview/*.css", "./src/webview/*.ttf"],
+          from: ["./src/webview/*.css", "./src/webview/*.ttf", "./src/webview/*.png"],
           to: ["./out"],
         },
       }),
