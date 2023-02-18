@@ -2,7 +2,7 @@
 	"name": "HolomateMIDIControllerMacros",
 	"displayName": "Holomate - MIDI Controller Macros",
 	"description": "Holomate - MIDI Controller Macros",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"publisher": "sregusci",
 	"private": true,
 	"license": "MIT",
@@ -31,7 +31,7 @@
 	"scripts": {
 		"vscode:prepublish": "npm run package",
 		"compile": "node ./esbuild.js",
-		"package": "NODE_ENV=production node ./esbuild.js",
+		"package": "SET NODE_ENV=production node ./esbuild.js",
 		"watch": "node ./esbuild.js --watch"
 	},
 	"devDependencies": {
