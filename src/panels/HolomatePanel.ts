@@ -155,13 +155,11 @@ export class HolomatePanel {
             <vscode-button id="save">Save</vscode-button>
           </section>
         </section>
-      </section>
-      <section class="component-row">
-      <section class="component-container">
+        <section class="component-container">
           <section class="component-example">
-              <img src="${webview.asWebviewUri(vscode.Uri.joinPath(extensionUri, 'out', 'holomate_frontal.png'))}" />
-            </section>
+            <img style="width: 240px;" src="${webview.asWebviewUri(vscode.Uri.joinPath(extensionUri, 'out', 'holomate_frontal.png'))}" />
           </section>
+        </section>
       </section>
       <script type="module" nonce="${nonce}" src="${webviewUri}"></script>
     </body>
