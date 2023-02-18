@@ -5,35 +5,11 @@
 
 import { commands, window, ExtensionContext, Terminal } from 'vscode';
 import { HolomatePanel } from "./panels/HolomatePanel";
+import { stateManager } from './utilities/stateManager';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import navigator = require('web-midi-api');
-
-//import { showQuickPick, showInputBox } from './basicInput';
-//import { multiStepInput } from './multiStepInput';
-//import { quickOpen } from './quickOpen';
-
-// export function activate(context: ExtensionContext) {
-// 	context.subscriptions.push(commands.registerCommand('samples.quickInput', async () => {
-// 		const options: { [key: string]: (context: ExtensionContext) => Promise<void> } = {
-// 			showQuickPick,
-// 			showInputBox,
-// 			multiStepInput,
-// 			quickOpen,
-// 		};
-// 		const quickPick = window.createQuickPick();
-// 		quickPick.items = Object.keys(options).map(label => ({ label }));
-// 		quickPick.onDidChangeSelection(selection => {
-// 			if (selection[0]) {
-// 				options[selection[0].label](context)
-// 					.catch(console.error);
-// 			}
-// 		});
-// 		quickPick.onDidHide(() => quickPick.dispose());
-// 		quickPick.show();
-// 	}));
-// }
 
 type Command = {
 	note: number,
@@ -41,9 +17,10 @@ type Command = {
 };
 
 export function activate(context: ExtensionContext) {
+	const state = stateManager(context.globalState);
 
 	const holomateCommand = commands.registerCommand("holomate.holomate", () => {
-		HolomatePanel.render(context.extensionUri);
+		HolomatePanel.render(context.extensionUri, context.globalState);
 	});
 
 	context.subscriptions.push(holomateCommand);
@@ -88,7 +65,7 @@ export function activate(context: ExtensionContext) {
 			// Display a message box with the note number and velocity
 			//vscode.window.showInformationMessage("Note on: channel=" + channel + ", note=" + data1 + ", velocity=" + data2);
 			output.appendLine("Note on: channel=" + channel + ", note=" + data1 + ", velocity=" + data2);
-			sendParams(command);
+			sendParams(command, state);
 			break;
 			// Add cases for other MIDI message types as needed
 		}
@@ -100,16 +77,18 @@ export function activate(context: ExtensionContext) {
 		output.appendLine("Failed to get MIDI access - " + error);
 	}
 
-	const sendParams = (command: Command) => {
+	const sendParams = (command: Command, state: { read: any; write?: (newState: { lastPaletteTitleApplied: any; }) => Promise<void>; }) => {
 		output.appendLine("sendParams: " + command);
 		const termName = "TERMINAL";
 		const term = window.terminals.find(t => t.name === termName);
+		const { lastPaletteTitleApplied } = state.read();
 
 		const handleSendText = (term: Terminal ,command: Command) => {
 			if (command.velocity > 0) {
 				switch (command.note) {
 					case 36:
-						term.sendText("git checkout stage");
+						//term.sendText("git checkout stage");
+						term.sendText(lastPaletteTitleApplied);
 						break;
 					case 37:
 						term.sendText("git add .");

@@ -7,11 +7,14 @@ import {
 import {
   getNonce
 } from "../utilities/getNonce";
+import { stateManager } from '../utilities/stateManager';
+
 
 export class HolomatePanel {
   public static currentPanel: HolomatePanel | undefined;
   private readonly _panel: vscode.WebviewPanel;
   private _disposables: vscode.Disposable[] = [];
+  private static _state: any;
 
   private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
     this._panel = panel;
@@ -21,13 +24,17 @@ export class HolomatePanel {
   }
 
   private _setWebviewMessageListener(webview: vscode.Webview) {
+    
     webview.onDidReceiveMessage(
-      (message: any) => {
+      async (message: any) => {
         const command = message.command;
         const text = message.text;
 
         switch (command) {
           case "hello":
+            await HolomatePanel._state.write({
+              lastPaletteTitleApplied: text
+            });
             vscode.window.showInformationMessage(text);
             return;
         }
@@ -37,10 +44,11 @@ export class HolomatePanel {
     );
   }
 
-  public static render(extensionUri: vscode.Uri) {
+  public static render(extensionUri: vscode.Uri, globalState: vscode.ExtensionContext['globalState']) {
     if (HolomatePanel.currentPanel) {
       HolomatePanel.currentPanel._panel.reveal(vscode.ViewColumn.One);
     } else {
+      HolomatePanel._state = stateManager(globalState);
       const panel = vscode.window.createWebviewPanel("holomate", "holomate", vscode.ViewColumn.One, {
         // Enable javascript in the webview
         enableScripts: true,
