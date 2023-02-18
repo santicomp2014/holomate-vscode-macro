@@ -35,7 +35,7 @@ export class HolomatePanel {
             await HolomatePanel._state.write({
               lastPaletteTitleApplied: text
             });
-            vscode.window.showInformationMessage(text);
+            vscode.window.showInformationMessage(HolomatePanel._state.read().lastPaletteTitleApplied);
             return;
         }
       },
