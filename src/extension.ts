@@ -77,51 +77,72 @@ export function activate(context: ExtensionContext) {
 		output.appendLine("Failed to get MIDI access - " + error);
 	}
 
-	const sendParams = (command: Command, state: { read: any; write?: (newState: { lastPaletteTitleApplied: any; }) => Promise<void>; }) => {
+	const sendParams = (command: Command, state: { read: any; write?: (button: "button_1" | "button_2" | "button_3" | "button_4" | "button_5" | "button_6" | "button_7" | "button_8" | "button_9" | "button_10" | "button_11" | "button_12", newState: { buttonData: any; }) => Promise<void>; }) => {
 		output.appendLine("sendParams: " + command);
 		const termName = "TERMINAL";
 		const term = window.terminals.find(t => t.name === termName);
-		const { lastPaletteTitleApplied } = state.read();
 
 		const handleSendText = (term: Terminal ,command: Command) => {
 			if (command.velocity > 0) {
 				switch (command.note) {
 					case 36:
-						//term.sendText("git checkout stage");
-						term.sendText(lastPaletteTitleApplied);
+						term.sendText(state.read("button_1").buttonData);
+						output.appendLine("sendParams: " + state.read("button_1").buttonData);
 						break;
 					case 37:
-						term.sendText("git add .");
+						term.sendText(state.read("button_2").buttonData);
+						output.appendLine("sendParams: " + state.read("button_2").buttonData);
+						//term.sendText("git add .");
 						break;
 					case 38:
-						term.sendText('git commit -m "',false);
+						term.sendText(state.read("button_3").buttonData);
+						output.appendLine("sendParams: " + state.read("button_3").buttonData);
+						//term.sendText('git commit -m "',false);
 						break;
 					case 39:
-						term.sendText('git push');
+						term.sendText(state.read("button_4").buttonData);
+						output.appendLine("sendParams: " + state.read("button_4").buttonData);
+						//term.sendText('git push');
 						break;
 					case 40:
-						term.sendText('git merge stage');
+						term.sendText(state.read("button_5").buttonData);
+						output.appendLine("sendParams: " + state.read("button_5").buttonData);
+						//term.sendText('git merge stage');
 						break;
 					case 41:
-						term.sendText('NOP');
+						term.sendText(state.read("button_6").buttonData);
+						output.appendLine("sendParams: " + state.read("button_6").buttonData);
+						//term.sendText('NOP');
 						break;
 					case 42:
-						term.sendText('NOP');
+						term.sendText(state.read("button_7").buttonData);
+						output.appendLine("sendParams: " + state.read("button_7").buttonData);
+						//term.sendText('NOP');
 						break;
 					case 43:
-						term.sendText('NOP');
+						term.sendText(state.read("button_8").buttonData);
+						output.appendLine("sendParams: " + state.read("button_8").buttonData);
+						//term.sendText('NOP');
 						break;
 					case 44:
-						term.sendText('NOP');
+						term.sendText(state.read("button_9").buttonData);
+						output.appendLine("sendParams: " + state.read("button_9").buttonData);
+						//term.sendText('NOP');
 						break;
 					case 45:
-						term.sendText('NOP');
+						term.sendText(state.read("button_10").buttonData);
+						output.appendLine("sendParams: " + state.read("button_10").buttonData);
+						//term.sendText('NOP');
 						break;
 					case 46:
-						term.sendText('NOP');
+						term.sendText(state.read("button_11").buttonData);
+						output.appendLine("sendParams: " + state.read("button_11").buttonData);
+						//term.sendText('NOP');
 						break;
 					case 47:
-						term.sendText('NOP');
+						term.sendText(state.read("button_12").buttonData);
+						output.appendLine("sendParams: " + state.read("button_12").buttonData);
+						//term.sendText('NOP');
 						break;
 					default:
 						break;

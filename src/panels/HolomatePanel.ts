@@ -28,14 +28,18 @@ export class HolomatePanel {
     webview.onDidReceiveMessage(
       async (message: any) => {
         const command = message.command;
-        const text = message.text;
-
         switch (command) {
-          case "hello":
-            await HolomatePanel._state.write({
-              lastPaletteTitleApplied: text
-            });
-            vscode.window.showInformationMessage(HolomatePanel._state.read().lastPaletteTitleApplied);
+          case "save":
+            for (const key in message ) {
+              if (Object.prototype.hasOwnProperty.call(message, key)) {
+                if (key === "command") {
+                  continue;
+                }
+                const element = message[key];
+                await HolomatePanel._state.write(key, {buttonData: element});
+              }
+            }
+            vscode.window.showInformationMessage("BUTTONS SAVED");
             return;
         }
       },
@@ -95,73 +99,75 @@ export class HolomatePanel {
       <h1>Holomate Editor</h1>
       <section class="component-row">
         <section class="component-container">
-          <section class="component-example">
-            <vscode-text-field label="1">
-              <span slot="start">1</span>
-            </vscode-text-field>
-          </section>
+          <form id="form">
+            <section class="component-example">
+              <vscode-text-field name="button_1" label="1">
+                <span slot="start">1</span>
+              </vscode-text-field>
+            </section>
 
-          <section class="component-example">
-            <vscode-text-field label="2">
-              <span slot="start">2</span>
-            </vscode-text-field>
-          </section>
-          <section class="component-example">
-            <vscode-text-field label="3">
-              <span slot="start">3</span>
-            </vscode-text-field>
-          </section>
-          <section class="component-example">
-            <vscode-text-field label="4">
-              <span slot="start">4</span>
-            </vscode-text-field>
-          </section>
-          <section class="component-example">
-            <vscode-text-field label="5">
-              <span slot="start">5</span>
-            </vscode-text-field>
-          </section>
+            <section class="component-example">
+              <vscode-text-field name="button_2" label="2">
+                <span slot="start">2</span>
+              </vscode-text-field>
+            </section>
+            <section class="component-example">
+              <vscode-text-field name="button_3" label="3">
+                <span slot="start">3</span>
+              </vscode-text-field>
+            </section>
+            <section class="component-example">
+              <vscode-text-field name="button_4" label="4">
+                <span slot="start">4</span>
+              </vscode-text-field>
+            </section>
+            <section class="component-example">
+              <vscode-text-field name="button_5" label="5">
+                <span slot="start">5</span>
+              </vscode-text-field>
+            </section>
 
-          <section class="component-example">
-            <vscode-text-field label="6">
-              <span slot="start">6</span>
-            </vscode-text-field>
-          </section>
+            <section class="component-example">
+              <vscode-text-field name="button_6" label="6">
+                <span slot="start">6</span>
+              </vscode-text-field>
+            </section>
 
-          <section class="component-example">
-            <vscode-text-field label="7">
-              <span slot="start">7</span>
-            </vscode-text-field>
-          </section>
-          <section class="component-example">
-            <vscode-text-field label="8">
-              <span slot="start">8</span>
-            </vscode-text-field>
-          </section>
-          <section class="component-example">
-            <vscode-text-field label="9">
-              <span slot="start">9</span>
-            </vscode-text-field>
-          </section>
-          <section class="component-example">
-            <vscode-text-field label="10">
-              <span slot="start">10</span>
-            </vscode-text-field>
-          </section>
-          <section class="component-example">
-            <vscode-text-field label="11">
-              <span slot="start">11</span>
-            </vscode-text-field>
-          </section>
+            <section class="component-example">
+              <vscode-text-field name="button_7" label="7">
+                <span slot="start">7</span>
+              </vscode-text-field>
+            </section>
+            <section class="component-example">
+              <vscode-text-field name="button_8" label="8">
+                <span slot="start">8</span>
+              </vscode-text-field>
+            </section>
+            <section class="component-example">
+              <vscode-text-field name="button_9" label="9">
+                <span slot="start">9</span>
+              </vscode-text-field>
+            </section>
+            <section class="component-example">
+              <vscode-text-field name="button_10" label="10">
+                <span slot="start">10</span>
+              </vscode-text-field>
+            </section>
+            <section class="component-example">
+              <vscode-text-field name="button_11" label="11">
+                <span slot="start">11</span>
+              </vscode-text-field>
+            </section>
 
-          <section class="component-example">
-            <vscode-text-field label="12">
-              <span slot="start">12</span>
-            </vscode-text-field>
-          </section>
-          <section class="component-example">
-            <vscode-button id="save">Save</vscode-button>
-          </section>
+            <section class="component-example">
+              <vscode-text-field name="button_12" label="12">
+                <span slot="start">12</span>
+              </vscode-text-field>
+            </section>
+            <section class="component-example">
+              <vscode-button id="save">Save</vscode-button>
+            </section>
+          </form>
         </section>
         <section class="component-container">
           <section class="component-example">
