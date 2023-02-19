@@ -32,7 +32,7 @@ export class HolomatePanel {
           case "save":
             for (const key in message ) {
               if (Object.prototype.hasOwnProperty.call(message, key)) {
-                if (key === "command" || "radio_yes_".includes(key) || "radio_no_".includes(key)) {
+                if (key === "command" || "newline_".includes(key)) {
                   continue;
                 }
                 const value = message[key];
@@ -42,10 +42,8 @@ export class HolomatePanel {
                   newLine: false,
                 };
 
-                if ('radio_yes_' + number in message && message['radio_yes_' + number] === 'on' ) {
+                if ('newline_' + number in message && message['newline_' + number] === 'on' ) {
                   buttonData.newLine = true;
-                } if ('radio_no_' + number in message && message['radio_no_' + number] === 'on' ) {
-                  buttonData.newLine = false;
                 }
                 await HolomatePanel._state.write(key, {buttonData: buttonData});
               }
@@ -122,27 +120,11 @@ export class HolomatePanel {
                 <vscode-text-field
                   name="button_${buttonNumber}"
                   label="${buttonNumber}"
-                  value="${buttons[buttonNumber]?.value || ""}"
+                  value="${buttons[buttonNumber-1]?.value || ""}"
                 >
                   <span slot="start">${buttonNumber}</span>
                 </vscode-text-field>
-                <vscode-radio-group>
-                  <label slot="label"
-                    >NewLine</label
-                  >
-                  <div>
-                  <vscode-radio
-                    name="radio_yes_${buttonNumber}"
-                    ${buttons[buttonNumber]?.newLine ? "checked" : ""}
-                    >Yes</vscode-radio
-                  >
-                  <vscode-radio
-                    name="radio_no_${buttonNumber}"
-                    ${buttons[buttonNumber]?.newLine ? "" : "checked"}
-                    >No</vscode-radio
-                  >
-                  </div>
-                </vscode-radio-group>
+                <vscode-checkbox name="newline_${buttonNumber}" ${buttons[buttonNumber-1]?.newLine ? "checked" : "" }>Add NewLine</vscode-checkbox>
               </section>
             `
             )}
