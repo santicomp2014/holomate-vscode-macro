@@ -80,6 +80,19 @@ export class HolomatePanel {
   private _getWebviewContent(webview: vscode.Webview, extensionUri: vscode.Uri) {
     const webviewUri = getUri(webview, extensionUri, ["out", "webview.js"]);
     const styleUri = getUri(webview, extensionUri, ["out", "style.css"]);
+    const button_1 = HolomatePanel._state.read('button_1').buttonData;
+    const button_2 = HolomatePanel._state.read('button_2').buttonData;
+    const button_3 = HolomatePanel._state.read('button_3').buttonData;
+    const button_4 = HolomatePanel._state.read('button_4').buttonData;
+    const button_5 = HolomatePanel._state.read('button_5').buttonData;
+    const button_6 = HolomatePanel._state.read('button_6').buttonData;
+    const button_7 = HolomatePanel._state.read('button_7').buttonData;
+    const button_8 = HolomatePanel._state.read('button_8').buttonData;
+    const button_9 = HolomatePanel._state.read('button_9').buttonData;
+    const button_10 = HolomatePanel._state.read('button_10').buttonData;
+    const button_11 = HolomatePanel._state.read('button_11').buttonData;
+    const button_12 = HolomatePanel._state.read('button_12').buttonData;
+    //ADD DEFAULT VALUES
 
     const nonce = getNonce();
     // Tip: Install the es6-string-html VS Code extension to enable code highlighting below
@@ -101,66 +114,66 @@ export class HolomatePanel {
         <section class="component-container">
           <form id="form">
             <section class="component-example">
-              <vscode-text-field name="button_1" label="1">
+              <vscode-text-field name="button_1" label="1" value="${button_1}">
                 <span slot="start">1</span>
               </vscode-text-field>
             </section>
 
             <section class="component-example">
-              <vscode-text-field name="button_2" label="2">
+              <vscode-text-field name="button_2" label="2" value="${button_2}">
                 <span slot="start">2</span>
               </vscode-text-field>
             </section>
             <section class="component-example">
-              <vscode-text-field name="button_3" label="3">
+              <vscode-text-field name="button_3" label="3" value="${button_3}">
                 <span slot="start">3</span>
               </vscode-text-field>
             </section>
             <section class="component-example">
-              <vscode-text-field name="button_4" label="4">
+              <vscode-text-field name="button_4" label="4" value="${button_4}">
                 <span slot="start">4</span>
               </vscode-text-field>
             </section>
             <section class="component-example">
-              <vscode-text-field name="button_5" label="5">
+              <vscode-text-field name="button_5" label="5" value="${button_5}">
                 <span slot="start">5</span>
               </vscode-text-field>
             </section>
 
             <section class="component-example">
-              <vscode-text-field name="button_6" label="6">
+              <vscode-text-field name="button_6" label="6" value="${button_6}">
                 <span slot="start">6</span>
               </vscode-text-field>
             </section>
 
             <section class="component-example">
-              <vscode-text-field name="button_7" label="7">
+              <vscode-text-field name="button_7" label="7" value="${button_7}">
                 <span slot="start">7</span>
               </vscode-text-field>
             </section>
             <section class="component-example">
-              <vscode-text-field name="button_8" label="8">
+              <vscode-text-field name="button_8" label="8" value="${button_8}">
                 <span slot="start">8</span>
               </vscode-text-field>
             </section>
             <section class="component-example">
-              <vscode-text-field name="button_9" label="9">
+              <vscode-text-field name="button_9" label="9" value="${button_9}">
                 <span slot="start">9</span>
               </vscode-text-field>
             </section>
             <section class="component-example">
-              <vscode-text-field name="button_10" label="10">
+              <vscode-text-field name="button_10" label="10" value="${button_10}">
                 <span slot="start">10</span>
               </vscode-text-field>
             </section>
             <section class="component-example">
-              <vscode-text-field name="button_11" label="11">
+              <vscode-text-field name="button_11" label="11" value="${button_11}">
                 <span slot="start">11</span>
               </vscode-text-field>
             </section>
 
             <section class="component-example">
-              <vscode-text-field name="button_12" label="12">
+              <vscode-text-field name="button_12" label="12" value="${button_12}">
                 <span slot="start">12</span>
               </vscode-text-field>
             </section>
@@ -179,7 +192,7 @@ export class HolomatePanel {
     </body>
 
     </html>
-`;
+    `;
   }
 
 }

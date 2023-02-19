@@ -31,7 +31,7 @@ function handleSaveClick() {
   const button_9 = formData.get("button_9") as string;
   const button_10 = formData.get("button_10") as string;
   const button_11 = formData.get("button_11") as string;
-  const button_12 = formData.get("button_11") as string;
+  const button_12 = formData.get("button_12") as string;
 
   vscode.postMessage({
     command: "save",
