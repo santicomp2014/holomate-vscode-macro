@@ -32,11 +32,22 @@ export class HolomatePanel {
           case "save":
             for (const key in message ) {
               if (Object.prototype.hasOwnProperty.call(message, key)) {
-                if (key === "command") {
+                if (key === "command" || "radio_yes_".includes(key) || "radio_no_".includes(key)) {
                   continue;
                 }
-                const element = message[key];
-                await HolomatePanel._state.write(key, {buttonData: element});
+                const value = message[key];
+                const number = key.split("_")[1];
+                const buttonData = {
+                  value,
+                  newLine: false,
+                };
+
+                if ('radio_yes_' + number in message && message['radio_yes_' + number] === 'on' ) {
+                  buttonData.newLine = true;
+                } if ('radio_no_' + number in message && message['radio_no_' + number] === 'on' ) {
+                  buttonData.newLine = false;
+                }
+                await HolomatePanel._state.write(key, {buttonData: buttonData});
               }
             }
             vscode.window.showInformationMessage("BUTTONS SAVED");
@@ -80,18 +91,10 @@ export class HolomatePanel {
   private _getWebviewContent(webview: vscode.Webview, extensionUri: vscode.Uri) {
     const webviewUri = getUri(webview, extensionUri, ["out", "webview.js"]);
     const styleUri = getUri(webview, extensionUri, ["out", "style.css"]);
-    const button_1 = HolomatePanel._state.read('button_1').buttonData;
-    const button_2 = HolomatePanel._state.read('button_2').buttonData;
-    const button_3 = HolomatePanel._state.read('button_3').buttonData;
-    const button_4 = HolomatePanel._state.read('button_4').buttonData;
-    const button_5 = HolomatePanel._state.read('button_5').buttonData;
-    const button_6 = HolomatePanel._state.read('button_6').buttonData;
-    const button_7 = HolomatePanel._state.read('button_7').buttonData;
-    const button_8 = HolomatePanel._state.read('button_8').buttonData;
-    const button_9 = HolomatePanel._state.read('button_9').buttonData;
-    const button_10 = HolomatePanel._state.read('button_10').buttonData;
-    const button_11 = HolomatePanel._state.read('button_11').buttonData;
-    const button_12 = HolomatePanel._state.read('button_12').buttonData;
+    const buttons: any[] = [];
+    for (let i = 1; i <= 12; i++) {
+      buttons.push(HolomatePanel._state.read('button_' + i).buttonData);
+    }
     //ADD DEFAULT VALUES
 
     const nonce = getNonce();
@@ -113,75 +116,36 @@ export class HolomatePanel {
       <section class="component-row">
         <section class="component-container">
           <form id="form">
-            <section class="component-example">
-              <vscode-text-field name="button_1" label="1" value="${button_1}">
-                <span slot="start">1</span>
-              </vscode-text-field>
-              <vscode-radio-group>
-                <label slot="label">NewLine</label>
-                <vscode-radio name="radio_yes_1">Yes</vscode-radio>
-                <vscode-radio name="radio_no_1">No</vscode-radio>
-              </vscode-radio-group>
-            </section>
-
-            <section class="component-example">
-              <vscode-text-field name="button_2" label="2" value="${button_2}">
-                <span slot="start">2</span>
-              </vscode-text-field>
-            </section>
-            <section class="component-example">
-              <vscode-text-field name="button_3" label="3" value="${button_3}">
-                <span slot="start">3</span>
-              </vscode-text-field>
-            </section>
-            <section class="component-example">
-              <vscode-text-field name="button_4" label="4" value="${button_4}">
-                <span slot="start">4</span>
-              </vscode-text-field>
-            </section>
-            <section class="component-example">
-              <vscode-text-field name="button_5" label="5" value="${button_5}">
-                <span slot="start">5</span>
-              </vscode-text-field>
-            </section>
-
-            <section class="component-example">
-              <vscode-text-field name="button_6" label="6" value="${button_6}">
-                <span slot="start">6</span>
-              </vscode-text-field>
-            </section>
-
-            <section class="component-example">
-              <vscode-text-field name="button_7" label="7" value="${button_7}">
-                <span slot="start">7</span>
-              </vscode-text-field>
-            </section>
-            <section class="component-example">
-              <vscode-text-field name="button_8" label="8" value="${button_8}">
-                <span slot="start">8</span>
-              </vscode-text-field>
-            </section>
-            <section class="component-example">
-              <vscode-text-field name="button_9" label="9" value="${button_9}">
-                <span slot="start">9</span>
-              </vscode-text-field>
-            </section>
-            <section class="component-example">
-              <vscode-text-field name="button_10" label="10" value="${button_10}">
-                <span slot="start">10</span>
-              </vscode-text-field>
-            </section>
-            <section class="component-example">
-              <vscode-text-field name="button_11" label="11" value="${button_11}">
-                <span slot="start">11</span>
-              </vscode-text-field>
-            </section>
-
-            <section class="component-example">
-              <vscode-text-field name="button_12" label="12" value="${button_12}">
-                <span slot="start">12</span>
-              </vscode-text-field>
-            </section>
+          ${Array.from({ length: 12 }, (_, i) => i+1).map(
+            (buttonNumber) => `
+              <section class="component-example">
+                <vscode-text-field
+                  name="button_${buttonNumber}"
+                  label="${buttonNumber}"
+                  value="${buttons[buttonNumber]?.value || ""}"
+                >
+                  <span slot="start">${buttonNumber}</span>
+                </vscode-text-field>
+                <vscode-radio-group>
+                  <label slot="label"
+                    >NewLine</label
+                  >
+                  <div>
+                  <vscode-radio
+                    name="radio_yes_${buttonNumber}"
+                    ${buttons[buttonNumber]?.newLine ? "checked" : ""}
+                    >Yes</vscode-radio
+                  >
+                  <vscode-radio
+                    name="radio_no_${buttonNumber}"
+                    ${buttons[buttonNumber]?.newLine ? "" : "checked"}
+                    >No</vscode-radio
+                  >
+                  </div>
+                </vscode-radio-group>
+              </section>
+            `
+            )}
             <section class="component-example">
               <vscode-button id="save">Save</vscode-button>
             </section>

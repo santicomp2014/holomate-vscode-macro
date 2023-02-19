@@ -86,62 +86,62 @@ export function activate(context: ExtensionContext) {
 			if (command.velocity > 0) {
 				switch (command.note) {
 					case 36:
-						term.sendText(state.read("button_1").buttonData);
-						output.appendLine("sendParams: " + state.read("button_1").buttonData);
+						term.sendText(state.read("button_1").buttonData.value, state.read("button_1").buttonData.newLine);
+						output.appendLine("sendParams: " + state.read("button_1").buttonData.value);
 						break;
 					case 37:
-						term.sendText(state.read("button_2").buttonData);
-						output.appendLine("sendParams: " + state.read("button_2").buttonData);
+						term.sendText(state.read("button_2").buttonData.value, state.read("button_2").buttonData.newLine);
+						output.appendLine("sendParams: " + state.read("button_2").buttonData.value);
 						//term.sendText("git add .");
 						break;
 					case 38:
-						term.sendText(state.read("button_3").buttonData);
-						output.appendLine("sendParams: " + state.read("button_3").buttonData);
+						term.sendText(state.read("button_3").buttonData.value, state.read("button_3").buttonData.newLine);
+						output.appendLine("sendParams: " + state.read("button_3").buttonData.value);
 						//term.sendText('git commit -m "',false);
 						break;
 					case 39:
-						term.sendText(state.read("button_4").buttonData);
-						output.appendLine("sendParams: " + state.read("button_4").buttonData);
+						term.sendText(state.read("button_4").buttonData.value, state.read("button_4").buttonData.newLine);
+						output.appendLine("sendParams: " + state.read("button_4").buttonData.value);
 						//term.sendText('git push');
 						break;
 					case 40:
-						term.sendText(state.read("button_5").buttonData);
-						output.appendLine("sendParams: " + state.read("button_5").buttonData);
+						term.sendText(state.read("button_5").buttonData.value, state.read("button_5").buttonData.newLine);
+						output.appendLine("sendParams: " + state.read("button_5").buttonData.value);
 						//term.sendText('git merge stage');
 						break;
 					case 41:
-						term.sendText(state.read("button_6").buttonData);
-						output.appendLine("sendParams: " + state.read("button_6").buttonData);
+						term.sendText(state.read("button_6").buttonData.value, state.read("button_6").buttonData.newLine);
+						output.appendLine("sendParams: " + state.read("button_6").buttonData.value);
 						//term.sendText('NOP');
 						break;
 					case 42:
-						term.sendText(state.read("button_7").buttonData);
-						output.appendLine("sendParams: " + state.read("button_7").buttonData);
+						term.sendText(state.read("button_7").buttonData.value, state.read("button_7").buttonData.newLine);
+						output.appendLine("sendParams: " + state.read("button_7").buttonData.value);
 						//term.sendText('NOP');
 						break;
 					case 43:
-						term.sendText(state.read("button_8").buttonData);
-						output.appendLine("sendParams: " + state.read("button_8").buttonData);
+						term.sendText(state.read("button_8").buttonData.value, state.read("button_8").buttonData.newLine);
+						output.appendLine("sendParams: " + state.read("button_8").buttonData.value);
 						//term.sendText('NOP');
 						break;
 					case 44:
-						term.sendText(state.read("button_9").buttonData);
-						output.appendLine("sendParams: " + state.read("button_9").buttonData);
+						term.sendText(state.read("button_9").buttonData.value, state.read("button_9").buttonData.newLine);
+						output.appendLine("sendParams: " + state.read("button_9").buttonData.value);
 						//term.sendText('NOP');
 						break;
 					case 45:
-						term.sendText(state.read("button_10").buttonData);
-						output.appendLine("sendParams: " + state.read("button_10").buttonData);
+						term.sendText(state.read("button_10").buttonData.value, state.read("button_10").buttonData.newLine);
+						output.appendLine("sendParams: " + state.read("button_10").buttonData.value);
 						//term.sendText('NOP');
 						break;
 					case 46:
-						term.sendText(state.read("button_11").buttonData);
-						output.appendLine("sendParams: " + state.read("button_11").buttonData);
+						term.sendText(state.read("button_11").buttonData.value, state.read("button_11").buttonData.newLine);
+						output.appendLine("sendParams: " + state.read("button_11").buttonData.value);
 						//term.sendText('NOP');
 						break;
 					case 47:
-						term.sendText(state.read("button_12").buttonData);
-						output.appendLine("sendParams: " + state.read("button_12").buttonData);
+						term.sendText(state.read("button_12").buttonData.value, state.read("button_12").buttonData.newLine);
+						output.appendLine("sendParams: " + state.read("button_12").buttonData.value);
 						//term.sendText('NOP');
 						break;
 					default:
