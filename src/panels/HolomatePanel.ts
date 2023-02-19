@@ -117,6 +117,11 @@ export class HolomatePanel {
               <vscode-text-field name="button_1" label="1" value="${button_1}">
                 <span slot="start">1</span>
               </vscode-text-field>
+              <vscode-radio-group>
+                <label slot="label">NewLine</label>
+                <vscode-radio name="radio_yes_1">Yes</vscode-radio>
+                <vscode-radio name="radio_no_1">No</vscode-radio>
+              </vscode-radio-group>
             </section>
 
             <section class="component-example">
