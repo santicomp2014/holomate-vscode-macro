@@ -2,7 +2,7 @@
 	"name": "HolomateMIDIControllerMacros",
 	"displayName": "Holomate - MIDI Controller Macros",
 	"description": "Holomate - MIDI Controller Macros",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"publisher": "sregusci",
 	"private": true,
 	"license": "MIT",
